@@ -5,17 +5,21 @@
 #include <utility>
 #include <map>
 
+#include "dictionary.hpp"
+
 class Transition
 {
-    std::map<std::string, unsigned int> m_words;
+    std::map<WordId, unsigned int> m_words;
 
     unsigned int m_total_count = 0u;
 
   public:
 
-    void operator+=(const std::string& word);
+    void
+    add_transition(WordId word);
 
-    std::string choose(unsigned int random);
+    WordId
+    choose(unsigned int random);
 
 };
 

@@ -8,11 +8,13 @@ namespace
   void
   add_transition(
       MarkovChain& markov,
-      std::string& from,
-      std::string& to
+      const std::string& from,
+      const std::string& to
   )
   {
-      markov.add_transition(from, to);
+      WordId src = markov.add_word(from);
+      WordId dst = markov.add_word(to);
+      markov.add_transition(src, dst);
       std::cout << from << " --> " << to << std::endl;
   }
 

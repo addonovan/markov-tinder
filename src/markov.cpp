@@ -1,26 +1,33 @@
 #include <markov.hpp>
 
+WordId
+MarkovChain::add_word(const std::string& word)
+{
+    return m_dictionary.push(word);
+}
+
 void
 MarkovChain::add_transition(
-    const std::string& from,
-    const std::string& to
+    WordId src,
+    WordId dst
 )
 {
-    if (auto item = m_function.find(from); item != m_function.end()) {
-        item->second += to;
+    if (auto item = m_function.find(src); item != m_function.end()) {
+        item->second.add_transition(dst);
     }
     else {
         Transition trans;
-        trans += to;
-        m_function[from] = trans;
+        trans.add_transition(dst);
+        m_function[src] = trans;
     }
 }
 
-std::string
+WordId
 MarkovChain::choose_next(
-    const std::string& current,
+    WordId current,
     unsigned int rand
 )
 {
     return m_function.find(current)->second.choose(rand);
 }
+

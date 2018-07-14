@@ -5,13 +5,16 @@
 #include <map>
 #include <iostream>
 
-#include <transition.hpp>
+#include "dictionary.hpp"
+#include "transition.hpp"
 
 class MarkovChain
 {
   private:
 
-    std::map<std::string, Transition> m_function;
+    Dictionary m_dictionary;
+
+    std::map<WordId, Transition> m_function;
 
   public:
 
@@ -19,7 +22,11 @@ class MarkovChain
 
   public:
 
-    void add_transition(const std::string& from, const std::string& to);
+    WordId
+    add_word(const std::string& word);
+
+    void
+    add_transition(WordId src, WordId dst);
 
     template<typename T>
     void next(std::ostream& out, T random_provider)
@@ -27,18 +34,22 @@ class MarkovChain
         std::uniform_int_distribution<typename T::result_type>
             distribution{1, 10000};
 
-        std::string current = "<<START>>";
-        std::string next;
+        WordId current_id = m_dictionary.push("<<START>>");
+        WordId next_id;
 
         while (true)
         {
-            next = choose_next(current, distribution(random_provider));
+            next_id = choose_next(
+                current_id,
+                distribution(random_provider)
+            );
 
+            auto next = m_dictionary.get(next_id);
             if (next == "<<END>>")
                 break;
 
             out << next << " ";
-            current = next;
+            current_id = next_id;
         }
 
         out << std::endl;
@@ -46,7 +57,8 @@ class MarkovChain
 
   private:
 
-    std::string choose_next(const std::string& current, unsigned int rand);
+    WordId
+    choose_next(WordId current, unsigned int rand);
 
 };
 

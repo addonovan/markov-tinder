@@ -1,11 +1,10 @@
 #include <stdexcept>
 
 #include <transition.hpp>
+#include <dictionary.hpp>
 
 void
-Transition::operator+=(
-    const std::string& word
-)
+Transition::add_transition(WordId word)
 {
     if (auto iter = m_words.find(word); iter != m_words.end()) {
         iter->second += 1;
@@ -16,10 +15,8 @@ Transition::operator+=(
     m_total_count += 1;
 }
 
-std::string
-Transition::choose(
-    unsigned int random
-)
+WordId
+Transition::choose(unsigned int random)
 {
     auto weight = random % m_total_count;
 
