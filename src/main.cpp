@@ -39,5 +39,8 @@ main(int argc, char *argv[])
     std::mt19937 rng{static_cast<unsigned long>(std::time(0u))};
     markovChain.next(std::cout, rng);
 
+    std::ofstream output{"data.txt"};
+    output << markovChain << std::endl;
+
     return 0;
 }

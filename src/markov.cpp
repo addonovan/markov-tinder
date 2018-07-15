@@ -1,4 +1,5 @@
 #include <markov.hpp>
+#include <iomanip>
 
 WordId
 MarkovChain::add_word(const std::string& word)
@@ -29,5 +30,24 @@ MarkovChain::choose_next(
 )
 {
     return m_function.find(current)->second.choose(rand);
+}
+
+std::ostream&
+operator<<(
+    std::ostream& os,
+    MarkovChain& mc
+)
+{
+    for (auto& item : mc.m_function) {
+        os << std::setw(10) << mc.m_dictionary.get(item.first) << " => [ ";
+
+        for (auto& out : item.second.words()) {
+            os << "'" << mc.m_dictionary.get(out) << "' ";
+        }
+
+        os << "]" << std::endl;
+    }
+
+    return os;
 }
 

@@ -60,6 +60,11 @@ class MarkovChain
     WordId
     choose_next(WordId current, unsigned int rand);
 
+  public:
+
+    friend std::ostream&
+    operator<<(std::ostream& os, MarkovChain& mc);
+
 };
 
 

@@ -21,6 +21,9 @@ class Transition
     WordId
     choose(unsigned int random);
 
+    std::vector<WordId>
+    words() const;
+
 };
 
 #endif //transition_H

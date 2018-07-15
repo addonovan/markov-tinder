@@ -1,4 +1,4 @@
-#include <stdexcept>
+#include <algorithm>
 
 #include <transition.hpp>
 #include <dictionary.hpp>
@@ -28,4 +28,16 @@ Transition::choose(unsigned int random)
     }
 
     throw std::runtime_error{"Failed to choose any item!"};
+}
+
+std::vector<WordId>
+Transition::words() const
+{
+    std::vector<WordId> words;
+
+    for (auto& item : m_words) {
+        words.push_back(item.first);
+    }
+
+    return words;
 }

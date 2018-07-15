@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <iomanip>
 
 #include <bios.hpp>
 
@@ -15,7 +16,9 @@ namespace
       WordId src = markov.add_word(from);
       WordId dst = markov.add_word(to);
       markov.add_transition(src, dst);
-      std::cout << from << " --> " << to << std::endl;
+
+      auto quoted_from = "'" + from + "'";
+      std::cout << std::setw(15) << quoted_from << " --> '" << to << "'" << std::endl;
   }
 
 }
